@@ -1,0 +1,79 @@
+####################################
+# File Viewing
+####################################
+
+# `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
+# the `.git` directory, listing directories first. The output gets piped into
+# `less` with options to preserve color and line numbers, unless the output is
+# small enough for one screen.
+function tre() {
+        tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
+}
+
+alias pretty_xml="xmllint --format -"
+
+# Colorize Terminal
+# Colorize Logs
+if [ -f "/usr/bin/ccze" ]; then
+    pretty_log() { ccze -A < $1 | less -R; }
+    pretty_tail_log() { tail -f $1 | ccze -A; }
+fi
+
+
+# Get colors in manual pages
+man() {
+        env \
+                LESS_TERMCAP_mb="$(printf '\e[1;31m')" \
+                LESS_TERMCAP_md="$(printf '\e[1;31m')" \
+                LESS_TERMCAP_me="$(printf '\e[0m')" \
+                LESS_TERMCAP_se="$(printf '\e[0m')" \
+                LESS_TERMCAP_so="$(printf '\e[1;44;33m')" \
+                LESS_TERMCAP_ue="$(printf '\e[0m')" \
+                LESS_TERMCAP_us="$(printf '\e[1;32m')" \
+                man "$@"
+}
+
+
+# Use feh to nicely view images
+openimage() {
+
+        cd "$(dirname "$1")" || exit
+        local file
+        file=$(basename "$1")
+
+        feh --auto-zoom --borderless --scale-down --draw-filename --image-bg black --start-at "$file" *
+}
+
+####################################
+# Document Manipulation
+####################################
+
+pdf_manip_two_per_page() {
+    # apt get install texlive-extra-utils
+    pdfnup --nup 2x1 "${@}"
+}
+
+
+
+pdf_manip_booklet_half_page() {
+    # apt get install texlive-extra-utils
+    pdfjam --booklet 'true' --landscape --signature '4' --landscape "${1}" -o "${1%.*}_booklet.pdf"
+}
+
+pdf_create_tile_x_images_per_page() {
+    # to create a pdf with all images in local directory tiled 4x4 on it's pages do the following
+    # pdf_create_tile_x_images_per_page 4 4 .
+    #
+    # to create a pdf with all images in ~/images tiled 6x3 (six across three down) on it's pages do the following
+    # pdf_create_tile_x_images_per_page 6 3 ~/images
+    local x="$1"
+    local y="$2"
+    local path="$3"
+    local img_per_page=$(echo "${x}*${y}" | bc)
+    pdfnup --nup "${x}x${y}" --suffix "${x}x${y}" $(find "${path}" -type f -exec file {} \; | awk -F: '{if ($2 ~/image/) print $1}' | xargs -I % readlink -f % | xargs -n"${img_per_page}" echo)
+}
+
+pdf_concat() {
+    local output_path="${1}"
+    pdftk "${@:2}" cat output "${output_path}"
+}
