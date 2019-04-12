@@ -213,7 +213,7 @@ harpoon() {
        docker run \
        --rm -it \
        --name harpoon \
-       -v ~/malware:/home/harpoon/malware \
+       -v /tmp/malware:/home/harpoon/malware \
        -v ~/dotfiles/private/harpoon:/home/harpoon/.config/harpoon/ \
        ${DOCKER_REPO_PREFIX}/harpoon
 }
@@ -240,7 +240,7 @@ play_docker() {
 
        docker run \
        --rm -it \
-       -v ~/malware:/home/malware \
+       -v /tmp/malware:/home/malware \
        --name play \
        ${DOCKER_REPO_PREFIX}/play bash
 }
@@ -572,7 +572,7 @@ streisand() {
        docker run \
        --rm -it \
        --name streisand \
-       -v /home/s2e/.ssh:/root/.ssh \
+       -v ~/.ssh:/root/.ssh \
        -v ~/home/projects/VPNs:/streisand/generated-docs/ \
        ${DOCKER_REPO_PREFIX}/streisand \
        bash
@@ -597,7 +597,7 @@ docker-nlp() {
         docker run \
         --rm \
         -it \
-        -v ~/malware:/home/user/malware \
+        -v /tmp/malware:/home/user/malware \
         --name "${NAME}" \
         "${DOCKER_REPO_PREFIX}/${SUFFIX}" \
         bash
@@ -615,7 +615,7 @@ jadx() {
                -e "DISPLAY=unix${DISPLAY}" \
                --rm \
                -it \
-               -v ~/malware:/home/user/workdir/malware \
+               -v /tmp/malware:/home/user/workdir/malware \
                --name "${NAME}" \
                "${DOCKER_REPO_PREFIX}/${SUFFIX}"
 }
@@ -630,7 +630,7 @@ docker-dex2jar() {
         docker run \
         --rm \
         -it \
-        -v ~/malware:/home/viper/workdir/malware \
+        -v /tmp/malware:/home/viper/workdir/malware \
         --name "${NAME}" \
         "${DOCKER_REPO_PREFIX}/${SUFFIX}" \
         bash
@@ -645,7 +645,7 @@ docker-apktool() {
         docker run \
         --rm \
         -it \
-        -v ~/malware:/home/viper/workdir/malware \
+        -v /tmp/malware:/home/viper/workdir/malware \
         --name "${NAME}" \
         "${DOCKER_REPO_PREFIX}/${SUFFIX}" \
         bash
@@ -654,7 +654,7 @@ docker-apktool() {
 is_it_dangerous_bash() {
         docker_del_stopped pycirclean-bash
         docker -D run \
-        -v ~/malware:/home/viper/workdir/malware \
+        -v /tmp/malware:/home/viper/workdir/malware \
         -it \
         --name pycirclean-bash \
         ${DOCKER_REPO_PREFIX}/pycirclean \
@@ -731,7 +731,7 @@ git-annex-bash(){
 oletools() {
        docker_del_stopped oletools
        docker -D run \
-       -v ~/malware:/malware \
+       -v /tmp/malware:/malware \
        -it \
        --name oletools \
        ${DOCKER_REPO_PREFIX}/oletools \
@@ -789,7 +789,7 @@ eyewitness_headless() {
            --rm \
            -it \
            --name eyewitness \
-           -v ~/malware/EyeWitness:/tmp/EyeWitness \
+           -v /tmp/malware/EyeWitness:/tmp/EyeWitness \
            ${DOCKER_REPO_PREFIX}/eyewitness \
            --web \
            --single "${1}"
