@@ -29,10 +29,9 @@ alias ~="cd ~" # `cd` is probably faster to type though
 alias -- -="cd -"
 
 # Shortcuts
-alias infosec="cd /mnt/c/Users/ghattaa/Human\ Rights\ Watch/Information\ Security\ Team\ -\ Documents/"
-alias abir="cd /mnt/c/Users/ghattaa/OneDrive\ -\ Human\ Rights\ Watch/"
-alias notes="cd /mnt/c/Users/ghattaa/OneDrive\ -\ Human\ Rights\ Watch/Notes"
-alias dl="cd /mnt/c/Users/ghattaa/Downloads"
+alias dl="cd ~/Downloads"
+alias abir="cd ~/Documents"
+alias notes="cd ~/Documents/notes/"
 alias g="git"
 alias reload="source ~/.bash_profile"
 alias _="sudo"

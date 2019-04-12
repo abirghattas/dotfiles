@@ -118,12 +118,11 @@ viper_test() {
 viper() {
         docker_del_stopped viper
         docker run \
-        -v ~/malware/2018:/malware \
+        -v /tmp/malware:/home/viper/workdir/malware \
         -v viper_data:/root/.viper \
         -it \
         --name viper \
         ${DOCKER_REPO_PREFIX}/viper
-        ../viper/viper.py -p malware
 }
 
 viper_reconnect() {
