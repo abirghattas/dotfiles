@@ -116,6 +116,7 @@ viper_test() {
 }
 
 viper() {
+	# change the volume location
         docker_del_stopped viper
         docker run \
         -v /tmp/malware:/home/viper/workdir/malware \
