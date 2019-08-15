@@ -511,11 +511,11 @@ wireshark(){
                 ${DOCKER_REPO_PREFIX}/wireshark
 }
 
-nmap(){
-        docker run --rm -it \
-                --net host \
-                ${DOCKER_REPO_PREFIX}/nmap "$@"
-}
+#nmap(){
+#        docker run --rm -it \
+#                --net host \
+#                ${DOCKER_REPO_PREFIX}/nmap "$@"
+#}
 
 slack(){
         docker_del_stopped slack
@@ -795,6 +795,21 @@ eyewitness_headless() {
            --single "${1}"
 }
 
+run_playbook_builder(){
+	docker_del_stopped hrwplaybook
+	playbook_dir="/tmp/hrw_playbooks"
+	rm -fr "${playbook_dir}"
+	mkdir -p "${playbook_dir}"
+	cp -fr ~/code/Playbooks/static "${playbook_dir}/static"
+	docker run \
+		-v ~/code/Playbooks:/root/Playbooks \
+		-v "${playbook_dir}:/tmp/Playbooks" \
+		-it \
+		--rm \
+		--name hrwplaybook \
+	${DOCKER_REPO_PREFIX}/hrwplaybook
+	echo "Created playbooks in ${playbook_dir}"
+}
 
 # Add private dockerfuncs if they exist
 if [ -a "${HOME}/dotfiles/private/.private_dockerfunc" ] ; then
